@@ -24,39 +24,43 @@ class SleepTimerButton extends HookConsumerWidget {
     // if the sleep timer is active, show the remaining time in a pill shaped container
     return Tooltip(
       message: 'Sleep Timer',
-      child: InkWell(
-        onTap: () async {
-          appLogger.fine('Sleep Timer button pressed');
-          pendingPlayerModals++;
-          // show the sleep timer dialog
-          await showModalBottomSheet<Duration?>(
-            context: context,
-            barrierLabel: 'Sleep Timer',
-            builder: (context) {
-              return SleepTimerBottomSheet(
-                onDurationSelected: (duration) {
-                  durationState.value = duration;
-                  // ref
-                  //     .read(sleepTimerProvider.notifier)
-                  //     .setTimer(duration, notifyListeners: false);
-                },
-              );
-            },
-          );
-          pendingPlayerModals--;
-          ref.read(sleepTimerProvider.notifier).setTimer(durationState.value);
-          appLogger.fine(
-            'Sleep Timer dialog closed with ${durationState.value}',
-          );
-        },
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: sleepTimer == null
-              ? Icon(
-                  Symbols.bedtime,
-                  color: Theme.of(context).colorScheme.onSurface,
-                )
-              : RemainingSleepTimeDisplay(timer: sleepTimer),
+      child: Semantics(
+        button: true,
+        label: 'Sleep timer',
+        child: InkWell(
+          onTap: () async {
+            appLogger.fine('Sleep Timer button pressed');
+            pendingPlayerModals++;
+            // show the sleep timer dialog
+            await showModalBottomSheet<Duration?>(
+              context: context,
+              barrierLabel: 'Sleep Timer',
+              builder: (context) {
+                return SleepTimerBottomSheet(
+                  onDurationSelected: (duration) {
+                    durationState.value = duration;
+                    // ref
+                    //     .read(sleepTimerProvider.notifier)
+                    //     .setTimer(duration, notifyListeners: false);
+                  },
+                );
+              },
+            );
+            pendingPlayerModals--;
+            ref.read(sleepTimerProvider.notifier).setTimer(durationState.value);
+            appLogger.fine(
+              'Sleep Timer dialog closed with ${durationState.value}',
+            );
+          },
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: sleepTimer == null
+                ? Icon(
+                    Symbols.bedtime,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  )
+                : RemainingSleepTimeDisplay(timer: sleepTimer),
+          ),
         ),
       ),
     );
@@ -256,6 +260,7 @@ class SleepTimerWheel extends StatelessWidget {
         // a minus button to decrease the speed
         if (showIncrementButtons)
           IconButton.filledTonal(
+            tooltip: 'Decrease sleep timer',
             icon: const Icon(Icons.remove),
             onPressed: () {
               // animate to index - 1
@@ -294,6 +299,7 @@ class SleepTimerWheel extends StatelessWidget {
         if (showIncrementButtons)
           // a plus button to increase the speed
           IconButton.filledTonal(
+            tooltip: 'Increase sleep timer',
             icon: const Icon(Icons.add),
             onPressed: () {
               // animate to index + 1

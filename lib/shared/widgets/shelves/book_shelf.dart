@@ -218,6 +218,15 @@ class _BookOnShelfPlayButton extends HookConsumerWidget {
       (element) => element.libraryItemId == libraryItemId,
     );
     final isBookCompleted = userProgress?.isFinished ?? false;
+    final playTooltip = isCurrentBookSetInPlayer
+        ? isPlayingThisBook
+              ? 'Pause'
+              : 'Resume'
+        : isBookCompleted
+        ? 'Listen again'
+        : userProgress?.progress != null
+        ? 'Continue listening'
+        : 'Start listening';
 
     const size = 40.0;
 
@@ -268,6 +277,7 @@ class _BookOnShelfPlayButton extends HookConsumerWidget {
 
             // the play button
             IconButton(
+              tooltip: playTooltip,
               color: Theme.of(context).colorScheme.primary,
               style: ButtonStyle(
                 padding: WidgetStateProperty.all(EdgeInsets.zero),

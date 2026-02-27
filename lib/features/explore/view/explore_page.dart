@@ -257,6 +257,7 @@ class BookSearchResultMini extends HookConsumerWidget {
         );
       },
       trailing: IconButton(
+        tooltip: 'More options',
         icon: const Icon(Icons.more_vert),
         onPressed: () {
           // TODO: show a menu with options for the book
@@ -311,6 +312,7 @@ class SearchResultMiniSection extends HookConsumerWidget {
               ),
               const Spacer(),
               IconButton(
+                tooltip: 'View more ${category.toString().split('.').last}',
                 icon: const Icon(Icons.arrow_forward_ios),
                 onPressed: onTap ?? openSearch,
               ),
