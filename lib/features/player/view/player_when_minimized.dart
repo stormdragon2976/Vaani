@@ -123,7 +123,9 @@ class PlayerWhenMinimized extends HookConsumerWidget {
                   ),
                   onPressed: () {
                     player.seek(
-                      player.positionInBook - const Duration(seconds: 30),
+                      player.positionInBook > const Duration(seconds: 30)
+                          ? player.positionInBook - const Duration(seconds: 30)
+                          : Duration.zero,
                     );
                   },
                 ),
