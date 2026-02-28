@@ -15,6 +15,8 @@ import 'package:vaani/shared/extensions/duration_format.dart';
 class SleepTimerButton extends HookConsumerWidget {
   const SleepTimerButton({super.key});
 
+  static const _sleepTimerLabel = 'Sleep timer';
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sleepTimer = ref.watch(sleepTimerProvider);
@@ -23,10 +25,10 @@ class SleepTimerButton extends HookConsumerWidget {
     // if sleep timer is not active, show the button with the sleep timer icon
     // if the sleep timer is active, show the remaining time in a pill shaped container
     return Tooltip(
-      message: 'Sleep Timer',
+      message: _sleepTimerLabel,
       child: Semantics(
         button: true,
-        label: 'Sleep timer',
+        label: _sleepTimerLabel,
         child: InkWell(
           onTap: () async {
             appLogger.fine('Sleep Timer button pressed');
